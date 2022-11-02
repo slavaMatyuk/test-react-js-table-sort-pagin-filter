@@ -1,0 +1,36 @@
+.table {
+  background-color: aliceblue;
+  width: 100%;
+}
+
+th,
+td {
+  padding: 8px;
+  border: 1px solid lightskyblue;
+}
+
+th {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+
+th:hover,
+td:hover {
+  background-color: white;
+}
+
+th:active {
+  background-color: white;
+  color: lightskyblue;
+}
+
+td:first-child,
+td:last-child {
+  text-align: center;
+}
+
+.sort-arrow {
+  position: absolute;
+  padding-left: 5px;
+}
