@@ -1,0 +1,12 @@
+.detail-container {
+  align-self: flex-start;
+  margin: 2rem 0;
+  padding: 1rem;
+  border: 1px solid dimgray;
+  background-color: lightskyblue;
+  min-width: 300px;
+}
+
+.detail-container textarea {
+  width: 100%;
+}

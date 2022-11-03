@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.css";
 
-export const Table = ({ data, onSort, sortParams }) => {
+export const Table = ({ data, onSort, sortParams, onRowSelect }) => {
   return (
     <table className="table">
       <thead>
@@ -59,13 +59,13 @@ export const Table = ({ data, onSort, sortParams }) => {
         </tr>
       </thead>
       <tbody>
-        {data.map(({ id, firstName, lastName, email, phone }) => (
-          <tr key={id + phone}>
-            <td>{id}</td>
-            <td>{firstName}</td>
-            <td>{lastName}</td>
-            <td>{email}</td>
-            <td>{phone}</td>
+        {data.map((row) => (
+          <tr key={row.id + row.phone} onClick={() => onRowSelect(row)}>
+            <td>{row.id}</td>
+            <td>{row.firstName}</td>
+            <td>{row.lastName}</td>
+            <td>{row.email}</td>
+            <td>{row.phone}</td>
           </tr>
         ))}
       </tbody>
