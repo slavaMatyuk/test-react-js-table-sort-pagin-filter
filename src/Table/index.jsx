@@ -59,15 +59,16 @@ export const Table = ({ data, onSort, sortParams, onRowSelect }) => {
         </tr>
       </thead>
       <tbody>
-        {data.map((row) => (
-          <tr key={row.id + row.phone} onClick={() => onRowSelect(row)}>
-            <td>{row.id}</td>
-            <td>{row.firstName}</td>
-            <td>{row.lastName}</td>
-            <td>{row.email}</td>
-            <td>{row.phone}</td>
-          </tr>
-        ))}
+        {data &&
+          data.map((row) => (
+            <tr key={row.id + row.phone} onClick={() => onRowSelect(row)}>
+              <td>{row.id}</td>
+              <td>{row.firstName}</td>
+              <td>{row.lastName}</td>
+              <td>{row.email}</td>
+              <td>{row.phone}</td>
+            </tr>
+          ))}
       </tbody>
     </table>
   );

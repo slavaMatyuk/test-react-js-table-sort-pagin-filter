@@ -13,6 +13,7 @@ export const App = () => {
   const [row, setRow] = useState(null);
   const [hasFetchedData, setHasFetchedData] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const PAGE_SIZE = 50;
 
@@ -42,8 +43,6 @@ export const App = () => {
     return chunked;
   };
 
-  const displayedData = chunkData(data, PAGE_SIZE)[currentPage];
-
   const applySorting = (key, ascending) => {
     setSorting({ key: key, ascending: ascending });
   };
@@ -61,11 +60,40 @@ export const App = () => {
     setCurrentPage(page.selected);
   };
 
+  const handleSearch = (searchQuery) => {
+    setSearchQuery(searchQuery);
+    setCurrentPage(0);
+  };
+
+  const getFilteredData = () => {
+    if (!searchQuery) return data;
+    return data.filter(
+      (item) =>
+        item["firstName"].toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item["lastName"].toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item["email"].toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item["id"]
+          .toString()
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        item["phone"]
+          .toString()
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
+    );
+  };
+
+  const filteredData = getFilteredData();
+  const displayedData = chunkData(filteredData, PAGE_SIZE)[currentPage];
+  const pageCount = Math.ceil(filteredData.length / PAGE_SIZE);
+
   useEffect(() => {
     const sortedData = [...data].sort((a, b) => {
       return a[sorting.key]
-        .toString()
-        .localeCompare(b[sorting.key], "en", { numeric: true });
+        ? a[sorting.key]
+            .toString()
+            .localeCompare(b[sorting.key], "en", { numeric: true })
+        : data;
     });
     setData(sorting.ascending ? sortedData : sortedData.reverse());
   }, [sorting]);
@@ -78,6 +106,7 @@ export const App = () => {
         <Loader />
       ) : (
         <>
+          <TableSearch onSearch={handleSearch} />
           <Table
             data={displayedData}
             sortParams={sorting}
@@ -89,20 +118,14 @@ export const App = () => {
               previousLabel="◀"
               nextLabel="▶"
               breakLabel="..."
-              pageCount={20}
+              pageCount={pageCount}
               pageRangeDisplayed={4}
               marginPagesDisplayed={2}
               onPageChange={handlePageClick}
               containerClassName="pagination"
               activeClassName="active"
-              hrefBuilder={(page, pageCount, selected) =>
-                page >= 1 && page <= pageCount ? `/page/${page}` : "#"
-              }
               hrefAllControls
               forcePage={currentPage}
-              onClick={(clickEvent) => {
-                console.log("onClick", clickEvent);
-              }}
             />
           ) : null}
           {row ? <DetailRowView person={row} /> : null}

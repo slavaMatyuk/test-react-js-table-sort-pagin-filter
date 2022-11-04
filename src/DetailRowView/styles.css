@@ -5,8 +5,10 @@
   border: 1px solid dimgray;
   background-color: lightskyblue;
   min-width: 300px;
+  border-radius: 5px;
 }
 
 .detail-container textarea {
   width: 100%;
+  border-radius: 5px;
 }
